@@ -8,12 +8,14 @@ import "@/global.css";
 import { formatCurrency } from "@/lib/util";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
+import { useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
+  const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string | null>(null);
   return (
     <SafeAreaView className="flex-1 p-5 bg-background">
       <View className="home-header">
@@ -48,7 +50,9 @@ export default function App() {
       </View>
       <View>
         <ListHeading title="All Subscriptions" des="One" metric={HOME_BALANCE.amount}/>
-        <SubscriptionCard {...HOME_SUBSCRIPTIONS[0]}/>
+        <SubscriptionCard {...HOME_SUBSCRIPTIONS[0]}
+          expanded={expandedSubscriptionId===HOME_SUBSCRIPTIONS[0].id}
+          onPress={ () => setExpandedSubscriptionId((currentId) => currentId === HOME_SUBSCRIPTIONS[0].id ? null : HOME_SUBSCRIPTIONS[0].id) }/>
       </View>
     </SafeAreaView>
   );
