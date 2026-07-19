@@ -53,6 +53,10 @@ export default function App() {
         <SubscriptionCard {...HOME_SUBSCRIPTIONS[0]}
           expanded={expandedSubscriptionId===HOME_SUBSCRIPTIONS[0].id}
           onPress={ () => setExpandedSubscriptionId((currentId) => currentId === HOME_SUBSCRIPTIONS[0].id ? null : HOME_SUBSCRIPTIONS[0].id) }/>
+
+        <SubscriptionCard {...HOME_SUBSCRIPTIONS[1]}
+          expanded={expandedSubscriptionId===HOME_SUBSCRIPTIONS[1].id}
+          onPress={ () => setExpandedSubscriptionId((currentId) => currentId === HOME_SUBSCRIPTIONS[1].id ? null : HOME_SUBSCRIPTIONS[1].id) }/>
       </View>
     </SafeAreaView>
   );
