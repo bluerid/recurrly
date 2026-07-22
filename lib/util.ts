@@ -1,4 +1,3 @@
-
 export const formatCurrency = (value: number, currency = "USD"): string => {
   try {
     return new Intl.NumberFormat("en-US", {
@@ -15,8 +14,18 @@ export const formatCurrency = (value: number, currency = "USD"): string => {
 
 export const formatSubscriptionDateTime = (date: string): string | undefined => {
   try {
-    return date;
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return '...';
+    }
+
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(parsedDate);
   } catch {
-    return '...'
+    return '...';
   }
 }
