@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "recurrly Docs": {
+      "type": "sse",
+      "url": "https://gitmcp.io/bluerid/recurrly"
+    }
+  }
+}
