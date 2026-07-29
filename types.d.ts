@@ -50,8 +50,6 @@ declare global {
 
     interface ListHeadingProps {
         title: string;
-        des: string, 
-        metric?: number | undefined
     }
 }
 
