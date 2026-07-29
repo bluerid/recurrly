@@ -42,7 +42,7 @@ export default function App() {
             </View>
 
             <View className="mb-5">
-              <ListHeading title="Upcoming" des="Zero"/>
+              <ListHeading title="Upcoming"/>
               <FlatList data={UPCOMING_SUBSCRIPTIONS} renderItem={({ item }) => (
                 <UpcominSubscriptionCard { ...item }/>)}
                 keyExtractor={(item) => item.id}
@@ -52,7 +52,7 @@ export default function App() {
               </FlatList>
             </View>
 
-            <ListHeading title="All Subscriptions" des="One" metric={HOME_BALANCE.amount}/>
+            <ListHeading title="All Subscriptions"/>
           </>
         )}
         data={HOME_SUBSCRIPTIONS} keyExtractor={(item) => item.id} renderItem={({item}) => (
