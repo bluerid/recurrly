@@ -1,11 +1,12 @@
 import ListHeading from "@/components/ListHeading";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import UpcominSubscriptionCard from "@/components/UpcominSubscriptionCard";
-import { HOME_BALANCE, HOME_SUBSCRIPTIONS, HOME_USER, UPCOMING_SUBSCRIPTIONS } from "@/constants/data";
+import { HOME_BALANCE, HOME_SUBSCRIPTIONS, UPCOMING_SUBSCRIPTIONS } from "@/constants/data";
 import { icons } from "@/constants/icons";
 import images from "@/constants/images";
 import "@/global.css";
 import { formatCurrency } from "@/lib/util";
+import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
@@ -16,6 +17,20 @@ const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string | null>(null);
+  const { isLoaded: isUserLoaded, user } = useUser();
+
+  // Derive display name + avatar from Clerk, with a sensible fallback while loading.
+  const displayName = (() => {
+    if (!isUserLoaded || !user) return "";
+    if (user.fullName) return user.fullName;
+    if (user.firstName || user.lastName) {
+      return [user.firstName, user.lastName].filter(Boolean).join(" ");
+    }
+    return user.primaryEmailAddress?.emailAddress ?? user.username ?? "";
+  })();
+
+  const avatarUrl = user?.imageUrl;
+
   return (
     <SafeAreaView className="flex-1 p-5 bg-background">
       <FlatList
@@ -23,8 +38,14 @@ export default function App() {
           <>
             <View className="home-header">
               <View className="home-user">
-                <Image source={images.avatar} className="home-avatar" />
-                <Text className="home-user-name">{HOME_USER.name}</Text>
+                <Image
+                  source={avatarUrl ? { uri: avatarUrl } : images.avatar}
+                  className="home-avatar"
+                  accessibilityLabel={displayName ? `${displayName} avatar` : 'User avatar'}
+                />
+                <Text className="home-user-name" numberOfLines={1}>
+                  {displayName}
+                </Text>
               </View>
               <Image source={icons.add} className="home-add-icon" />
             </View>
