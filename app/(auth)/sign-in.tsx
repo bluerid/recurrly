@@ -10,7 +10,7 @@ import {
   ScrollView,
   Text,
   TextInput,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
 
@@ -72,10 +72,12 @@ const SignIn = () => {
     setError(null);
 
     try {
-      await signIn.create({
+      const attempt = await signIn.create({
         identifier: emailAddress,
         password,
       });
+
+      console.log(JSON.stringify(attempt, null, 2));
 
       if (signIn.status === 'complete') {
         const sessionId = signIn.createdSessionId;
@@ -89,7 +91,10 @@ const SignIn = () => {
         // 2FA required — route to verify when available
         setError('Two-factor verification required.');
       } else {
-        setError(`Sign in incomplete (${signIn.status}). Please try again.`);
+        const errorMessage = attempt.error && typeof attempt.error === 'object' 
+          ? extractClerkMessage(attempt.error) 
+          : String(attempt.error);
+        setError(`Sign in incomplete: ${errorMessage}. Please try again.`);
       }
     } catch (err: unknown) {
       setError(extractClerkMessage(err));
