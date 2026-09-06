@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
 
+import { posthog } from '@/lib/posthog';
+
 const SafeAreaView = styled(RNSafeAreaView);
 
 const isClerkAPIError = (err: unknown): err is { errors?: Array<{ message?: string }> } =>
@@ -83,6 +85,7 @@ const SignIn = () => {
         const sessionId = signIn.createdSessionId;
         if (sessionId) {
           await setActive({ session: sessionId });
+          posthog?.capture('user_signed_in');
           router.replace('/(tabs)');
         } else {
           setError('Sign in failed. Please try again.');

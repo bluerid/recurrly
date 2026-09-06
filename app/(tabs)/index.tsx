@@ -13,6 +13,8 @@ import { useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
+import { posthog } from "@/lib/posthog";
+
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
@@ -78,7 +80,14 @@ export default function App() {
         )}
         data={HOME_SUBSCRIPTIONS} keyExtractor={(item) => item.id} renderItem={({item}) => (
           <SubscriptionCard { ...item } expanded={expandedSubscriptionId===item.id} 
-          onPress={() => setExpandedSubscriptionId((currentId) => currentId === item.id ? null : item.id)}/>
+          onPress={() => setExpandedSubscriptionId((currentId) => {
+            const expanded = currentId !== item.id;
+            posthog?.capture('subscription_details_toggled', {
+              subscription_id: item.id,
+              expanded,
+            });
+            return expanded ? item.id : null;
+          })}/>
         )}
         extraData={expandedSubscriptionId}
         ItemSeparatorComponent={ ()=> <View className="h-4"></View> }
