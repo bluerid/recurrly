@@ -30,8 +30,8 @@ const Settings = () => {
         <View className="settings-card rounded-2xl p-5 mb-6 flex-row items-center">
           <Image 
             source={{ uri: user?.imageUrl || images.avatar }}
-            className="w-16 h-16 rounded-full mr-4"
-  />
+            className="w-16 h-16 rounded-full mr-4"/>
+            
           <View className="flex-1">
             <Text className="text-2xl font-sans-bold text-primary">{displayName}</Text>
             <Text className="text-sm text-gray-500">{email}</Text>

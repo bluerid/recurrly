@@ -1,3 +1,4 @@
+import { posthog } from '@/lib/posthog';
 import { useAuth, useClerk, useSignIn } from '@clerk/expo';
 import { Link, useRouter } from 'expo-router';
 import { styled } from 'nativewind';
@@ -13,8 +14,6 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
-
-import { posthog } from '@/lib/posthog';
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -79,7 +78,7 @@ const SignIn = () => {
         password,
       });
 
-      console.log(JSON.stringify(attempt, null, 2));
+      // console.log(JSON.stringify(attempt, null, 2));
 
       if (signIn.status === 'complete') {
         const sessionId = signIn.createdSessionId;
